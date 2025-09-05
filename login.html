@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Hub - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 8px;
+      width: 250px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Hub 3</h1>
+  <h3>Presented by DevForge</h3>
+
+  <!-- Input fields -->
+  <input type="text" id="name" placeholder="Enter your name" />
+  <input type="email" id="email" placeholder="Enter your email" />
+  <input type="password" id="password" placeholder="Enter password" />
+
+  <!-- Submit button (always enabled) -->
+  <button id="submitBtn">Submit</button>
+  <div class="error" id="errorMsg"></div>
+
+  <!-- Load config file -->
+  <script src="config.gitignore"></script>
+  <script>
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const submitBtn = document.getElementById("submitBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    submitBtn.addEventListener("click", () => {
+      errorMsg.textContent = "";
+
+      if (nameInput.value.trim() === "") {
+        errorMsg.textContent = "Please enter your name.";
+        return;
+      }
+
+      if (!isValidEmail(emailInput.value)) {
+        errorMsg.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      if (passwordInput.value !== getDecryptedPassword()) {
+        errorMsg.textContent = "Incorrect password.";
+        return;
+      }
+
+      // Save login info in localStorage
+      localStorage.setItem("login_name", nameInput.value.trim());
+      localStorage.setItem("login_email", emailInput.value.trim());
+
+      // Redirect to landing page
+      window.location.href = "landing.html";
+    });
+  </script>
+</body>
+</html>

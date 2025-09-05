@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Hub Landing 6</title>
+  
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header, footer { background-color: #222; color: white; padding: 15px; text-align: center; }
+    .container { padding: 20px; }
+    h2 { margin-top: 40px; }
+    .badges img { height: 100px; margin-right: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+    button { padding: 6px 12px; }
+    .two-column { display: flex; gap: 20px; flex-wrap: wrap; }
+    .section { flex: 1 1 45%; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Hub</h1>
+    <p>Navigation Bar (replicate as needed)</p>
+  </header>
+
+  <div class="container">
+    <h2 id="welcomeText">Welcome In</h2>
+
+    <!-- Section 1: Badges -->
+    <div class="section">
+      <h2>My Badges</h2>
+      <div class="badges">
+        <a href="https://bcert.me/sjvhrtrsj"><img src="https://bcert.me/bc/html/img/badges/generated/badge-67772.png" alt="Badge 1"></a>
+        <a href="https://bcert.me/ssvlggkvd "><img src="https://bcert.me/bc/html/img/badges/generated/badge-67775.png" alt="Badge 2"></a>
+      </div>
+    </div>
+
+     
+    <!-- Section 2: Courses -->
+    <div id="coursesContainer"></div>
+    <div><h2>My Courses</h2>
+  </div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Course Table with Redirect Control</title>
+  <script>
+    function handleClick(event, url) {
+      event.preventDefault(); // stop the default navigation
+
+      // If the URL contains "www.iamtimcorey.com", reroute to SSO
+      if (url.includes("www.iamtimcorey.com")) {
+        console.log("Blocked redirect to:", url);
+        const ssoUrl = "https://sso.teachable.com/secure/288799/identity/login/otp";
+        console.log("Redirecting instead to:", ssoUrl);
+        window.location.href = ssoUrl;
+      } else {
+        // Otherwise allow normal navigation
+        console.log("Redirecting to:", url);
+        window.location.href = url;
+      }
+    }
+  </script>
+</head>
+<body>
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>Course Name</th>
+      <th>Percent Complete</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      <td>C# Mastercourse</td>
+      <td>73%</td>
+      <td>
+        <button onclick="handleClick(event, 'https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://courses.iamtimcorey.com/courses/enrolled/1577707')">
+          In Progress
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Web Development Mastercourse</td>
+      <td>0%</td>
+      <td>
+        <button onclick="handleClick(event, 'https://sso.teachable.com/secure/288799/identity/login/password/')">
+          Not Started
+        </button>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

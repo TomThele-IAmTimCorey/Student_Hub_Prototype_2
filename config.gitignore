@@ -1,0 +1,17 @@
+// config.js
+window.appConfig = {
+  // Store the SHA-256 hash of the login password
+  loginPasswordHash: "7df8d40163db672c41a70c585a52f5e1f78b9ad53c7b1f5e7b0c3b57d3c04c39", // hash of "test!bluefish!"
+
+  // Teachable API key (replace with your real one)
+  teachableApiKey: "hoUy238I3tditABq22vkjWxEUoylKigb"
+};
+// AI keeps loosing focus and dropping the pwd encryption, not sure which version it is using now
+// Store the password encrypted (base64 encoding here for simplicity).
+// "test!bluefish!" encoded in Base64 = dGVzdCFibHVlZmlzaCE=
+const ENCRYPTED_PASSWORD = "dGVzdCFibHVlZmlzaCE=";
+
+// Simple decryption (Base64 decode)
+function getDecryptedPassword() {
+  return atob(ENCRYPTED_PASSWORD);
+}
