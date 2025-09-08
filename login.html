@@ -39,8 +39,10 @@
   <input type="email" id="email" placeholder="Enter your email" />
   <input type="password" id="password" placeholder="Enter password" />
 
-  <!-- Submit button (always enabled) -->
+
+  <!-- Submit buttons (always enabled) -->
   <button id="submitBtn">Submit</button>
+  <button id="submitQueryBtn">Submit Query</button>
   <div class="error" id="errorMsg"></div>
 
   <!-- Load config file -->
@@ -50,13 +52,15 @@
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const submitBtn = document.getElementById("submitBtn");
-    const errorMsg = document.getElementById("errorMsg");
+
+  const errorMsg = document.getElementById("errorMsg");
+  const submitQueryBtn = document.getElementById("submitQueryBtn");
 
     function isValidEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    submitBtn.addEventListener("click", () => {
+    function handleSubmit(redirectUrl) {
       errorMsg.textContent = "";
 
       if (nameInput.value.trim() === "") {
@@ -78,8 +82,16 @@
       localStorage.setItem("login_name", nameInput.value.trim());
       localStorage.setItem("login_email", emailInput.value.trim());
 
-      // Redirect to landing page
-      window.location.href = "landing.html";
+      // Redirect to the specified page
+      window.location.href = redirectUrl;
+    }
+
+    submitBtn.addEventListener("click", () => {
+      handleSubmit("landing.html");
+    });
+
+    submitQueryBtn.addEventListener("click", () => {
+      handleSubmit("landingold.html");
     });
   </script>
 </body>
