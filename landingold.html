@@ -81,6 +81,7 @@
         // Finished Try attempt for API call
       debugLog(`Finished API call for ${loginEmail}`);
       console.log(`Finished API call for ${loginEmail}`);
+      console.log("API response data:", data);
 
         const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
