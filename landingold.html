@@ -70,7 +70,7 @@
           //  "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
           },
           body: JSON.stringify({ email: loginEmail })
-        });
+        )};
 
         if (!response.ok) {
           throw new Error("API request failed: " + response.status);
