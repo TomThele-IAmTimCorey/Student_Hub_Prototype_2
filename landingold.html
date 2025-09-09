@@ -63,11 +63,11 @@
       console.log(`Starting API call for ${loginEmail}`); 
           
       try {
-        const response = await fetch("https://developers.teachable.com/v1/users?apikey=hoUy238I3tditABq22vkjWxEUoylKigb", {
+        const response = await fetch("https://developers.teachable.com/v1/users", {
           method: "POST",
           headers: {
             "accept": "application/json"
-            // "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
+             "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
           },
           body: JSON.stringify({ email: "tom.thele@gmail.com" })
         });
