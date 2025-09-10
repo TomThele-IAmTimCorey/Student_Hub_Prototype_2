@@ -48,18 +48,18 @@
       "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
     const loginEmail = localStorage.getItem('login_email');
-    function debugLog(msg) {
-  const debugDiv = document.getElementById('debugOutput');
-  debugDiv.innerHTML += `<div>${msg}</div>`;
+    //function debugLog(msg) {
+  //const debugDiv = document.getElementById('debugOutput');
+  //debugDiv.innerHTML += `<div>${msg}</div>`;
 }
-    document.getElementById('debugOutput').innerHTML = "";
+    //document.getElementById('debugOutput').innerHTML = "";
 
     async function loadCourses() {
       const container = document.getElementById('coursesContainer');
       const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb"; // Use your actual key
 
       // Starting Try attempt for API call
-      debugLog(`Starting API call for ${loginEmail}`);
+      //debugLog(`Starting API call for ${loginEmail}`);
       console.log(`Starting API call for ${loginEmail}`); 
           
       try {
@@ -79,7 +79,7 @@
         const data = await response.json(); 
 
         // Finished Try attempt for API call
-      debugLog(`Finished API call for ${loginEmail}`);
+      //debugLog(`Finished API call for ${loginEmail}`);
       //console.log(`Finished API call for --- ${loginEmail}`);
       //console.log("test");
       //console.log(`API response data: ${data}`);
@@ -92,8 +92,8 @@
         }
 
         // Show raw response for debugging
-        debugLog(`<pre>${JSON.stringify(data, null, 2)}</pre>`); 
-        console.log("API response data:", data);  
+        //debugLog(`<pre>${JSON.stringify(data, null, 2)}</pre>`); 
+        //console.log("API response data:", data);  
         
         
         // Sort courses by percent_complete descending
