@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Hub Landing 2.0</title>
+  <title>Student Hub Landing 3.0</title>
   
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -13,8 +13,13 @@
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
     button { padding: 6px 12px; }
-    .two-column { display: flex; gap: 20px; flex-wrap: wrap; }
-    .section { flex: 1 1 45%; margin-bottom: 20px; }
+    .bento-box {
+      background: #f8f8f8;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
   </style>
 </head>
 <body>
@@ -27,21 +32,23 @@
     <h2 id="welcomeText">Welcome In</h2>
 
     <!-- Section 1: Badges -->
-    <div class="section">
+    <div class="bento-box">
       <h2>My Badges</h2>
       <div class="badges">
         <a href="https://bcert.me/sjvhrtrsj"><img src="https://bcert.me/bc/html/img/badges/generated/badge-67772.png" alt="Badge 1"></a>
-        <a href="https://bcert.me/ssvlggkvd "><img src="https://bcert.me/bc/html/img/badges/generated/badge-67775.png" alt="Badge 2"></a>
+        <a href="https://bcert.me/ssvlggkvd"><img src="https://bcert.me/bc/html/img/badges/generated/badge-67775.png" alt="Badge 2"></a>
       </div>
-      <button class="btn btn-success" onclick=" window.open('https://badgecert.com/login','_blank')">
-          Login to BadgeCert
-        </button> Log into your profile for share your badges on social media!
+      <button class="btn btn-success" onclick="window.open('https://badgecert.com/login','_blank')">
+        Login to BadgeCert
+      </button>
+      <span>Log into your profile to share your badges on social media!</span>
     </div>
 
-
-
     <!-- Section 2: Courses -->
-    <div id="coursesContainer"></div>
+    <div class="bento-box">
+      <h2>My Course</h2>
+      <div id="coursesContainer"></div>
+    </div>
   </div>
 
   <script>
@@ -49,18 +56,11 @@
       "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
     const loginEmail = localStorage.getItem('login_email');
-    //function debugLog(msg) {
-  //const debugDiv = document.getElementById('debugOutput');
-  //debugDiv.innerHTML += `<div>${msg}</div>`;
-
-    //document.getElementById('debugOutput').innerHTML = "";
 
     async function loadCourses() {
       const container = document.getElementById('coursesContainer');
       const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb"; // Use your actual key
 
-      // Starting Try attempt for API call
-      //debugLog(`Starting API call for ${loginEmail}`);
       console.log(`Starting API call for ${loginEmail}`); 
           
       try {
@@ -68,22 +68,14 @@
           method: "GET",
           headers: {
             "accept": "application/json",
-             "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
-             //"content-type": "application/json"
-          },
-          //body: JSON.stringify({ email: "tom.thele@gmail.com" })
+            "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
+          }
         });
 
         if (!response.ok) {
           throw new Error("API request failed: " + response.status);
         }
         const data = await response.json(); 
-
-        // Finished Try attempt for API call
-      //debugLog(`Finished API call for ${loginEmail}`);
-      //console.log(`Finished API call for --- ${loginEmail}`);
-      //console.log("test");
-      //console.log(`API response data: ${data}`);
 
         const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
@@ -92,11 +84,6 @@
           return;
         }
 
-        // Show raw response for debugging
-        //debugLog(`<pre>${JSON.stringify(data, null, 2)}</pre>`); 
-        //console.log("API response data:", data);  
-        
-        
         // Sort courses by percent_complete descending
         courses.sort((a, b) => b.percent_complete - a.percent_complete);
 
@@ -124,11 +111,8 @@
         container.innerHTML = `Error loading courses for ${loginEmail}`;
       }
     }
- // ...existing code...
 
-loadCourses(); 
-
+    loadCourses(); 
   </script>
-  <h3>Table should be above this</h3>
 </body>
 </html>
