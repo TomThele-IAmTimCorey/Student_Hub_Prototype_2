@@ -302,10 +302,9 @@
         console.error(err);
         container.innerHTML = `Error loading courses for ${loginEmail}`;
       }
-    } catch (err) {
-        console.error(err);
-        container.innerHTML = `Error for ${studentId}`;
-      }
+    } catch (error) {
+    console.error("An error occurred:", error);
+    }
 
     loadCourses();
   </script>
