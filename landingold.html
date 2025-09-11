@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Hub Landing 4.5</title>
+  <title>Student Hub Landing 4.6</title>
   
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -140,8 +140,8 @@
           <div id="coursesContainer"></div>
         </div>
         <div>
-          <p>Student ID is: <span id="studentId"></span><br>
-            Student Email is: <span id="studentEmail"></span>
+          <p>Student ID is: <script>docWrite(studentId)</script><br>
+            Student Email is: <script>docWrite(loginEmail)</script>
           </p>
         </div>
       </div>
@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error("No user found for email " + loginEmail);
       }
 
-      console.log("First call for userId", userData);
+      
       const studentId = userData.users[0].id;
       console.log("Found StudentId:", studentId);
 
@@ -318,7 +318,9 @@ document.addEventListener("DOMContentLoaded", () => {
       container.innerHTML = `Error looking up user: ${error.message}`;
     }
   }
-
+function docWrite(variable) {
+    document.write(variable);
+}
   // ✅ Call it here (outside the function)
   loadCourses();
 });
