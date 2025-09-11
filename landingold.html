@@ -222,15 +222,16 @@
     async function loadCourses() {
       const container = document.getElementById('coursesContainer');
       const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb"; // Use your actual key
+      const studentId = "81034898"; // Replace with dynamic ID if available
 
       console.log(`Starting API call for ${loginEmail}`); 
           
       try {
-        const response = await fetch("https://developers.teachable.com/v1/users/81034898", {
+        const response = await fetch("https://developers.teachable.com/v1/users/${studentId}", {
           method: "GET",
           headers: {
             "accept": "application/json",
-            "apikey": "hoUy238I3tditABq22vkjWxEUoylKigb"
+            "apikey": apiKey
           }
         });
 
