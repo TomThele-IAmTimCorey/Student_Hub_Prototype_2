@@ -249,7 +249,7 @@
       console.log("Found StudentId:", studentId);
 
 
-      //try {
+      try {
         const response = await fetch("https://developers.teachable.com/v1/users/"+studentId, {
           method: "GET",
           headers: {
@@ -298,12 +298,14 @@
 
         container.innerHTML = tableHtml;
 
-      //} 
-      catch (err) {
+      } catch (err) {
         console.error(err);
         container.innerHTML = `Error loading courses for ${loginEmail}`;
       }
-    }
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `Error for ${studentId}`;
+      }
 
     loadCourses();
   </script>
