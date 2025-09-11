@@ -218,6 +218,7 @@
   </div>
 
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('welcomeText').textContent =
       "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
@@ -314,6 +315,7 @@
 
     loadCourses();
   }
+});
   </script>
 
 
