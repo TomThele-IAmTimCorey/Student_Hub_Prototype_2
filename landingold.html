@@ -221,46 +221,47 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('welcomeText').textContent =
-      "Welcome In, " + (localStorage.getItem('login_name') || "Student");
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById('welcomeText').textContent =
+    "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
-    const loginEmail = localStorage.getItem('login_email');
+  const loginEmail = localStorage.getItem('login_email') || "tom.thele@gmail.com";
+  const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
 
-    async function loadCourses() {
-      const container = document.getElementById('coursesContainer');
-      const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb"; // Use your actual key
-      const studentId2 = "81034898"; // Replace with dynamic ID if available
+  async function loadCourses() {
+    const container = document.getElementById('coursesContainer');
 
-      console.log(`Starting API call for ${loginEmail}`); 
-      
-      //Get studentId
-       try {
-      // Step 1: Call list users API with email filter
-      //const userResponse = await fetch(`https://developers.teachable.com/v1/users?email=${encodeURIComponent(loginEmail)}`, {
-      const userResponse = await fetch(`https://developers.teachable.com/v1/users?email=tom.thele@gmail.com`, {
-        method: "GET",
-        headers: {
-          "accept": "application/json",
-          "apikey": apiKey
+    console.log(`Starting API call for ${loginEmail}`);
+
+    try {
+      // Step 1: Get studentId by email
+      const userResponse = await fetch(
+        `https://developers.teachable.com/v1/users?email=${encodeURIComponent(loginEmail)}`,
+        {
+          method: "GET",
+          headers: {
+            "accept": "application/json",
+            "apikey": apiKey
+          }
         }
-      });
+      );
 
       if (!userResponse.ok) {
         throw new Error("User lookup failed: " + userResponse.status);
       }
 
-            const userData = await userResponse.json();
+      const userData = await userResponse.json();
       if (!userData.users || userData.users.length === 0) {
         throw new Error("No user found for email " + loginEmail);
       }
-      console.log("First call for userId", userDate);
+
+      console.log("First call for userId", userData);
       const studentId = userData.users[0].id;
       console.log("Found StudentId:", studentId);
 
-
+      // Step 2: Get user details
       try {
-        const response = await fetch("https://developers.teachable.com/v1/users/81034898", {
+        const response = await fetch(`https://developers.teachable.com/v1/users/${studentId}`, {
           method: "GET",
           headers: {
             "accept": "application/json",
@@ -271,7 +272,9 @@
         if (!response.ok) {
           throw new Error("API request failed: " + response.status);
         }
-        const data = await response.json(); 
+
+        const data = await response.json();
+        console.log("User detail data:", data);
 
         const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
@@ -280,10 +283,10 @@
           return;
         }
 
-        // Sort courses by percent_complete descending
+        // Sort courses by progress
         courses.sort((a, b) => b.percent_complete - a.percent_complete);
 
-        // Only show first 10 rows, allow scroll for more
+        // Build table
         let tableHtml = `<table>
           <tr><th>Course Name</th><th>Progress</th><th>Action</th></tr>`;
         courses.slice(0, 10).forEach(c => {
@@ -301,25 +304,26 @@
         });
         tableHtml += "</table>";
 
-        // If more than 10, show a note
         if (courses.length > 10) {
           tableHtml += `<div style="margin-top:8px;color:#555;">Scroll to see more courses...</div>`;
         }
 
         container.innerHTML = tableHtml;
-
       } catch (err) {
         console.error(err);
         container.innerHTML = `Error loading courses for ${loginEmail}`;
       }
     } catch (error) {
-    console.error("An error occurred:", error);
+      console.error("An error occurred:", error);
+      container.innerHTML = `Error looking up user: ${error.message}`;
     }
-
-    loadCourses();
   }
+
+  // ✅ Call it here (outside the function)
+  loadCourses();
 });
-  </script>
+</script>
+
 
 
     <script>
