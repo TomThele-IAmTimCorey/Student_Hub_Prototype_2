@@ -233,7 +233,8 @@
       //Get studentId
        try {
       // Step 1: Call list users API with email filter
-      const userResponse = await fetch(`https://developers.teachable.com/v1/users?email=${encodeURIComponent(loginEmail)}`, {
+      //const userResponse = await fetch(`https://developers.teachable.com/v1/users?email=${encodeURIComponent(loginEmail)}`, {
+      const userResponse = await fetch(`https://developers.teachable.com/v1/users?email=tom.thele@gmail.com`, {
         method: "GET",
         headers: {
           "accept": "application/json",
