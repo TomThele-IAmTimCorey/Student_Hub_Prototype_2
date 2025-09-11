@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BadgeCert Badge Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #session {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    #badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    #badges a img {
+      width: 150px;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    #badges a img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>My BadgeCert Badges</h1>
+  <div id="session">Loading session...</div>
+  <div id="badges">Loading badges...</div>
+
+  <script>
+  async function getSessionAndBadges() {
+    const authKey = "nLzJ12wzS8gXQZi69aMa"; // <-- Replace with your real Authentication Key
+    const loginEmail = "tom.thele@gmail.com"; // <-- Replace or pull from localStorage
+
+    try {
+      // --- STEP 1: Authenticate and get sessionID ---
+      const csBody = `
+        <xmlrequest>
+          <operation>CS</operation>
+          <authenticationKey>${authKey}</authenticationKey>
+        </xmlrequest>
+      `;
+
+      const csResponse = await fetch("https://badgecert.com/bc/api", {
+        method: "POST",
+        headers: { "Content-Type": "application/xml" },
+        body: csBody
+      });
+
+      const csText = await csResponse.text();
+      console.log("CS Response:", csText);
+
+      const parser = new DOMParser();
+      const csXML = parser.parseFromString(csText, "application/xml");
+      const sessionID = csXML.querySelector("ResponseMessage")?.textContent?.split("::").pop().trim()
+        || csXML.querySelector("ResponseCode")?.textContent;
+
+      if (!sessionID) {
+        document.getElementById("session").textContent = "❌ Could not retrieve sessionID";
+        return;
+      }
+
+      document.getElementById("session").textContent = "SessionID is: " + sessionID;
+
+      // --- STEP 2: Query Earner Issuances (QEI) ---
+      const qeiBody = `
+        <xmlrequest>
+          <operation>QEI</operation>
+          <sessionID>${sessionID}</sessionID>
+          <earneremail>${loginEmail}</earneremail>
+        </xmlrequest>
+      `;
+
+      const qeiResponse = await fetch("https://badgecert.com/bc/api", {
+        method: "POST",
+        headers: { "Content-Type": "application/xml" },
+        body: qeiBody
+      });
+
+      const qeiText = await qeiResponse.text();
+      console.log("QEI Response:", qeiText);
+
+      const qeiXML = parser.parseFromString(qeiText, "application/xml");
+      const badgesContainer = document.getElementById("badges");
+      badgesContainer.innerHTML = "";
+
+      const badges = qeiXML.querySelectorAll("issuedbadgecert");
+      if (badges.length === 0) {
+        badgesContainer.textContent = "No badges found.";
+        return;
+      }
+
+      badges.forEach(badge => {
+        const badgeUrl = badge.querySelector("badgeartifact1")?.textContent;
+        const badgeName = badge.querySelector("badgename")?.textContent || "Badge";
+
+        if (badgeUrl) {
+          const img = document.createElement("img");
+          img.src = badgeUrl;
+          img.alt = badgeName;
+
+          const link = document.createElement("a");
+          link.href = badgeUrl;
+          link.target = "_blank";
+          link.appendChild(img);
+
+          badgesContainer.appendChild(link);
+        }
+      });
+    } catch (err) {
+      console.error("Error:", err);
+      document.getElementById("session").textContent = "❌ Error: " + err.message;
+      document.getElementById("badges").textContent = "";
+    }
+  }
+
+  getSessionAndBadges();
+  </script>
+</body>
+</html>
