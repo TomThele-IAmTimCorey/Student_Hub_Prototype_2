@@ -240,11 +240,11 @@
         throw new Error("User lookup failed: " + userResponse.status);
       }
 
-      const userData = await userResponse.json();
+            const userData = await userResponse.json();
       if (!userData.users || userData.users.length === 0) {
         throw new Error("No user found for email " + loginEmail);
       }
-
+      console.log("First call for userId"+userDate);
       const studentId = userData.users[0].id;
       console.log("Found StudentId:", studentId);
 
