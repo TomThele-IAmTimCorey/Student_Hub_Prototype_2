@@ -2,26 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redirecting to Course...</title>
+  <title>Redirect Debug Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    .info {
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
   <script>
-    function redirectToCourse() {
+    let courseUrl = "";
+
+    function setupPage() {
       const params = new URLSearchParams(window.location.search);
       const courseId = params.get("course_id");
 
       if (!courseId) {
-        document.body.innerText = "Error: No course_id provided.";
+        document.getElementById("output").innerText = "❌ Error: No course_id provided.";
+        document.getElementById("redirectBtn").disabled = true;
         return;
       }
 
-      // Build the Teachable enrolled course URL
-      const courseUrl = `https://courses.iamtimcorey.com/courses/enrolled/${courseId}`;
+      courseUrl = `https://courses.iamtimcorey.com/courses/enrolled/${courseId}`;
 
-      // Redirect immediately
-      window.location.replace(courseUrl);
+      document.getElementById("courseId").innerText = courseId;
+      document.getElementById("courseUrl").innerText = courseUrl;
+    }
+
+    function doRedirect() {
+      window.location.href = courseUrl;
     }
   </script>
 </head>
-<body onload="redirectToCourse()">
-  Redirecting you to your course...
+<body onload="setupPage()">
+  <h1>Redirect Debug Page</h1>
+  <div id="output" class="info">
+    <p><strong>Course ID:</strong> <span id="courseId"></span></p>
+    <p><strong>Redirect URL:</strong> <span id="courseUrl"></span></p>
+  </div>
+  <button id="redirectBtn" onclick="doRedirect()">Continue to Course</button>
 </body>
 </html>
+
+
