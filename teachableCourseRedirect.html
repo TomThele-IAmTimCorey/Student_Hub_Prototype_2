@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting to Course...</title>
+  <script>
+    function redirectToCourse() {
+      const params = new URLSearchParams(window.location.search);
+      const courseId = params.get("course_id");
+
+      if (!courseId) {
+        document.body.innerText = "Error: No course_id provided.";
+        return;
+      }
+
+      // Build the Teachable enrolled course URL
+      const courseUrl = `https://courses.iamtimcorey.com/courses/enrolled/${courseId}`;
+
+      // Redirect immediately
+      window.location.replace(courseUrl);
+    }
+  </script>
+</head>
+<body onload="redirectToCourse()">
+  Redirecting you to your course...
+</body>
+</html>

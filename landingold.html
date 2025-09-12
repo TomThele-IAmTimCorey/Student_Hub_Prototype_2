@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
           tableHtml += `<tr>
             <td>${c.course_name}</td>
             <td>${c.percent_complete}%</td>
-            <td><a href="https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
+            <td><a href="https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://tomthele-iamtimcorey.github.io/Student_Hub_Prototype_2/teachableCourseRedirect.html?course_id=${c.course_id}" target="_blank">
               <button>${btnLabel}</button>            
             </a></td>
           </tr>`;
