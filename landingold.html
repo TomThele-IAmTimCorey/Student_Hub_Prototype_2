@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Hub Landing 5</title>
+  <title>Student Hub Landing 5.1</title>
   
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -301,10 +301,12 @@ document.addEventListener("DOMContentLoaded", () => {
           tableHtml += `<tr>
             <td>${c.course_name}</td>
             <td>${c.percent_complete}%</td>
-            <td><a href="https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
-              <button>${btnLabel}</button>
+            <td><a href="https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
+              <button>${btnLabel}</button>            
             </a></td>
           </tr>`;
+          //  <td><a href="https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
+          //    <button>${btnLabel}</button>
         });
         tableHtml += "</table>";
 
