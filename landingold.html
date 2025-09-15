@@ -146,6 +146,7 @@
           <div id="coursesContainer"></div>
         </div>
         <div>
+          <h4>Scroll to see more courses</h4>
           <h4>Note: You will periodically be asked to re-validate your course enrollment access</h4>
         </div>
       </div>
@@ -365,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tableHtml += "</table>";
 
         if (courses.length > 10) {
-          tableHtml += `<div style="margin-top:8px;color:#555;">Scroll to see more courses...</div>`;
+          tableHtml += `<div style="margin-top:8px;color:#555;"></div>`;
         }
 
         container.innerHTML = tableHtml;
