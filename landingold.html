@@ -214,17 +214,12 @@
       <!-- End bento-row -->
     </div>              
     <!-- Section 4.5: Podcasts -->
-      <div class="bento-box">
-        <h2>recent Podcasts from Tim</h2>
-        <div class="podcasts">
-          <a href="https://www.buzzsprout.com/api/1183862/episodes.json
-"><img src="https://www.buzzsprout.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCQkRKaVFjPSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--2f0bcff28c309632f8ebbc082392240a5ce723ae/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9MWm05eWJXRjBPZ2hxY0djNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3docEFsZ0NhUUpZQW5zR09nbGpjbTl3T2d0alpXNTBjbVU2Q25OaGRtVnlld1k2REhGMVlXeHBkSGxwUVRvUVkyOXNiM1Z5YzNCaFkyVkpJZ2x6Y21kaUJqb0dSVlE9IiwiZXhwIjpudWxsLCJwdXIiOiJ2YXJpYXRpb24ifX0=--1924d851274c06c8fa0acdfeffb43489fc4a7fcc/Podcast%20Cover%20Art%202024.png" alt="Badge 1"></a>
-          
-          <br>
-          <span>Click the image to go to Tim's podcast page on Buzzsprout</span>
-        </div>
-      </div>
-      </div>
+      <h1>Latest Podcast Episode</h1>
+  <div id="latest-episode">
+    Loading latest episode...
+  </div>
+
+  
     
 
       <!-- Section 5: Podcast -->
@@ -236,7 +231,39 @@
     </div>
   
   </div>
+<script>
+    const rssFeedUrl = 'https://feeds.buzzsprout.com/YOUR_FEED_ID.rss'; // Replace with the actual RSS feed URL
 
+    async function fetchLatestEpisode() {
+      try {
+        const response = await fetch(rssFeedUrl);
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'application/xml');
+
+        // Get the first <item> (latest episode)
+        const latestEpisode = xml.querySelector('item');
+        const title = latestEpisode.querySelector('title').textContent;
+        const description = latestEpisode.querySelector('description').textContent;
+        const audioUrl = latestEpisode.querySelector('enclosure').getAttribute('url');
+
+        // Display the episode
+        document.getElementById('latest-episode').innerHTML = `
+          <h2>${title}</h2>
+          <p>${description}</p>
+          <audio controls>
+            <source src="${audioUrl}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        `;
+      } catch (error) {
+        console.error('Error fetching the RSS feed:', error);
+        document.getElementById('latest-episode').textContent = 'Failed to load the latest episode.';
+      }
+    }
+
+    fetchLatestEpisode();
+  </script>
   <script>
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
