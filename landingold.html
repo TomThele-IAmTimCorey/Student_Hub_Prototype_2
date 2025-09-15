@@ -163,7 +163,7 @@
             <br>
             -------------------------------------------------
             <h3>With FS integration</h3>
-          <button class="btn btn-success" onclick="window.open('https://iamtimcorey.onfastspring.com/account/BCEyTb4kQSa0Jz8EqBc7KQ/WYg_Rlr7SNM','_blank')">
+          <button class="btn btn-success" onclick="window.open('https://iamtimcorey.onfastspring.com/account/_Y6p7m16QjuecUpGMlGNuw/U3QByUFwS3E','_blank')">
           See Purchases or Manage Subscription</button>
           <br>
           <span>Log into your profile to share your badges on social media!</span>
@@ -329,7 +329,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
         if (!courses.length) {
-          container.innerHTML = `No enrollments found for ${loginEmail}`;
+          container.innerHTML = `No enrollments found for ${loginEmail}. 
+          Consider getting the Free` <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
+    Hands on Refactoring </a> `course!`;
           return;
         }
 
@@ -339,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Build table
         let tableHtml = `<table>
           <tr><th>Course Name</th><th>Progress</th><th>Action</th></tr>`;
-        courses.slice(0, 10).forEach(c => {
+        courses.slice(0, 30).forEach(c => {
           let btnLabel = "Not Started";
           if (c.percent_complete === 100) btnLabel = "Review";
           else if (c.percent_complete > 0) btnLabel = "In Progress";
@@ -413,6 +415,6 @@ function docWrite(variable) {
     </script>  
     
  <a href="https://docs.google.com/spreadsheets/d/1dOszaD17-L6E1McEu3rZSFHJw-epJB7g0Pyl3xLyT9E/edit?usp=sharing" target="_blank">
-    Visit Tom GSheet proof of concept 
+    Visit Tom GSheet proof of concept </a>
 </body>
 </html>
