@@ -332,11 +332,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
         if (!courses.length) {
-          container.innerHTML = `No enrollments found for ${loginEmail}. 
-          Consider getting this Free Course!` <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
-    "Hands on Refactoring" 
+          container.innerHTML = `
+            No enrollments found for ${loginEmail}. 
+            Consider getting this Free Course!
+            <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
+              Hands on Refactoring
+            </a>`;
           return;
-        }
+}
 
         // Sort courses by progress
         courses.sort((a, b) => b.percent_complete - a.percent_complete);
@@ -375,9 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
       container.innerHTML = `Error looking up user: ${error.message}`;
     }
   }
-function docWrite(variable) {
-    document.write(variable);
-}
+
   // ✅ Call it here (outside the function)
   loadCourses();
 });
