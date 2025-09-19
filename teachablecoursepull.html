@@ -107,20 +107,7 @@
             line-height: 1.6;
         }
         
-        /* Simple CSS spinner */
-        .spinner {
-        margin: 0 auto 10px auto;
-        border: 6px solid #f3f3f3;
-        border-top: 6px solid #3498db;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-        }
+        
 
   </style>
 </head>
@@ -138,18 +125,14 @@
 
       <!-- Section: Courses -->
       <div class="bento-box">
-        <h2>The Students Courses V4</h2>
+        <h2>The Students Courses V5</h2>
         <!-- Email input above table -->
             <div style="margin-bottom: 1em;">
             <label for="loginEmailInput">Login Email:</label>
             <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
             <button id="loadBtn">Load Courses</button>
             </div>
-            <!-- Spinner graphic -->
-            <div id="loadingSpinner" style="display:none; text-align:center; margin:20px;">
-                <div class="spinner"></div>
-                <p>Loading courses from Teachable...</p>
-            </div>
+
         <div class="scrollable-table">
           <div id="coursesContainer"></div>
         </div>
@@ -158,11 +141,7 @@
           
         </div>
       </div>
-        <!-- Spinner graphic -->
-        <div id="loadingSpinner" style="display:none; text-align:center; margin:20px;">
-            <div class="spinner"></div>
-            <p>Loading courses from Teachable...</p>
-        </div>
+        
 
         <!-- Section: Badges -->
         <div class="bento-box">
@@ -203,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
 
-  const spinner = document.getElementById("loadingSpinner");
+  
   const emailInput = document.getElementById("loginEmailInput");
 
   // ✅ Get email from URL parameter "student_email"
@@ -244,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const userData = await userResponse.json();
       if (!userData.users || userData.users.length === 0) {
-        throw new Error("No user found for email " + loginEmail + ". Consider getting Free Course - Hands on Refactoring");
+        throw new Error("No user found for email:  " + loginEmail);
       }
 
       const studentId = userData.users[0].id;
@@ -270,12 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!courses.length) {
         container.innerHTML = `
-          No enrollments found for ${loginEmail}. 
-          Consider getting this Free Course!
-          <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
-            Hands on Refactoring
-          </a>`;
-        return;
+          No enrollments found for email:   ${loginEmail}.` 
+          return;
       }
 
       // Sort courses by progress
@@ -297,8 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("An error occurred:", error);
       container.innerHTML = `Error looking up user: ${error.message}`;
-    }finally {
-      spinner.style.display = "none"; // hide spinner always at the end
     }
   }
 
