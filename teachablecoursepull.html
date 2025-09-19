@@ -142,22 +142,16 @@
 
       <!-- Section 2: Courses -->
       <div class="bento-box">
-        <h2>My Courses (Live Data)</h2>
+        <h2>The Students Courses V2</h2>
         <div class="scrollable-table">
           <div id="coursesContainer"></div>
         </div>
         <div>
           <h4>Scroll to see more courses</h4>
-          <h4>Note: You will periodically be asked to re-validate your course enrollment access</h4>
+          
         </div>
       </div>
-
-
-      
-  
     
-
-      
     </div> 
   </div>
 
@@ -175,13 +169,27 @@
 
 <h2 id="welcomeText"></h2>
 <div id="coursesContainer"></div>
+<!--
+hoUy238I3tditABq22vkjWxEUoylKigb
+-->
+
+<h2 id="welcomeText"></h2>
+
+<!-- Email input above table -->
+<div style="margin-bottom: 1em;">
+  <label for="loginEmailInput">Login Email:</label>
+  <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
+  <button id="loadBtn">Load Courses</button>
+</div>
+
+<div id="coursesContainer"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
     "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
-  const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
+  const apiKey = "xxxxxx";
 
   const emailInput = document.getElementById("loginEmailInput");
   const storedEmail = localStorage.getItem("login_email") || "";
@@ -258,23 +266,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // Sort courses by progress
       courses.sort((a, b) => b.percent_complete - a.percent_complete);
 
-      // Build table
+      // Build table (no Action column)
       let tableHtml = `<table border="1" cellpadding="5">
-        <tr><th>Course ID</th><th>Course Name</th><th>Progress</th><th>Action</th></tr>`;
+        <tr><th>Course ID</th><th>Course Name</th><th>Progress</th></tr>`;
       courses.slice(0, 30).forEach(c => {
-        let btnLabel = "Not Started";
-        if (c.percent_complete === 100) btnLabel = "Review";
-        else if (c.percent_complete > 0) btnLabel = "In Progress";
-
         tableHtml += `<tr>
           <td>${c.course_id}</td>
           <td>${c.course_name}</td>
           <td>${c.percent_complete}%</td>
-          <td>
-            <a href="https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
-              <button>${btnLabel}</button>
-            </a>
-          </td>
         </tr>`;
       });
       tableHtml += "</table>";
@@ -303,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
 
 
 
