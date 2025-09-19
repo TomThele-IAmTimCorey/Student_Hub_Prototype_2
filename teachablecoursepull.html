@@ -143,6 +143,12 @@
       <!-- Section 2: Courses -->
       <div class="bento-box">
         <h2>The Students Courses V2</h2>
+        <!-- Email input above table -->
+            <div style="margin-bottom: 1em;">
+            <label for="loginEmailInput">Login Email:</label>
+            <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
+            <button id="loadBtn">Load Courses</button>
+            </div>
         <div class="scrollable-table">
           <div id="coursesContainer"></div>
         </div>
@@ -161,35 +167,17 @@
         Teachable API integration
         -------------------------  
     -->
-  <div>
-  <label for="loginEmailInput">Login Email:</label>
-  <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
-  <button id="loadBtn">Load Courses</button>
-</div>
-
-<h2 id="welcomeText"></h2>
-<div id="coursesContainer"></div>
 <!--
 hoUy238I3tditABq22vkjWxEUoylKigb
 -->
 
-<h2 id="welcomeText"></h2>
-
-<!-- Email input above table -->
-<div style="margin-bottom: 1em;">
-  <label for="loginEmailInput">Login Email:</label>
-  <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
-  <button id="loadBtn">Load Courses</button>
-</div>
-
-<div id="coursesContainer"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
     "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
-  const apiKey = "xxxxxx";
+  const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
 
   const emailInput = document.getElementById("loginEmailInput");
   const storedEmail = localStorage.getItem("login_email") || "";
