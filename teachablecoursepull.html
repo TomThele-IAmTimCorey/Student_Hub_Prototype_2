@@ -163,18 +163,42 @@
 
 
 
-  // Teachable API integration
-  //----------------------
-  <script>
+    <!---------------------------  
+        Teachable API integration
+        -------------------------  
+    -->
+  <div>
+  <label for="loginEmailInput">Login Email:</label>
+  <input type="text" id="loginEmailInput" placeholder="Enter your login email" />
+  <button id="loadBtn">Load Courses</button>
+</div>
+
+<h2 id="welcomeText"></h2>
+<div id="coursesContainer"></div>
+
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
     "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
-  const loginEmail = localStorage.getItem('login_email') || "tom.thele@gmail.com";
-  const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
+  const apiKey = "xxxxxx";
+
+  const emailInput = document.getElementById("loginEmailInput");
+  const storedEmail = localStorage.getItem("login_email") || "";
+  emailInput.value = storedEmail;
 
   async function loadCourses() {
+    const loginEmail = emailInput.value.trim();
+    if (!loginEmail) {
+      alert("Please enter a login email.");
+      return;
+    }
+
+    // Save entered email to localStorage
+    localStorage.setItem("login_email", loginEmail);
+
     const container = document.getElementById('coursesContainer');
+    container.innerHTML = "Loading courses...";
 
     console.log(`Starting API call for ${loginEmail}`);
 
@@ -197,84 +221,89 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const userData = await userResponse.json();
       if (!userData.users || userData.users.length === 0) {
-        throw new Error("No user found for email " + loginEmail + " Consister getting Free Course - Hands on Refactoring");
+        throw new Error("No user found for email " + loginEmail + ". Consider getting Free Course - Hands on Refactoring");
       }
 
-      
       const studentId = userData.users[0].id;
       console.log("Found StudentId:", studentId);
 
       // Step 2: Get user details
-      try {
-        const response = await fetch(`https://developers.teachable.com/v1/users/${studentId}`, {
-          method: "GET",
-          headers: {
-            "accept": "application/json",
-            "apikey": apiKey
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error("API request failed: " + response.status);
+      const response = await fetch(`https://developers.teachable.com/v1/users/${studentId}`, {
+        method: "GET",
+        headers: {
+          "accept": "application/json",
+          "apikey": apiKey
         }
+      });
 
-        const data = await response.json();
-        console.log("User detail data:", data);
-
-        const courses = (data.courses || []).filter(c => c.is_active_enrollment);
-
-        if (!courses.length) {
-          container.innerHTML = `
-            No enrollments found for ${loginEmail}. 
-            Consider getting this Free Course!
-            <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
-              Hands on Refactoring
-            </a>`;
-          return;
+      if (!response.ok) {
+        throw new Error("API request failed: " + response.status);
       }
 
-        // Sort courses by progress
-        courses.sort((a, b) => b.percent_complete - a.percent_complete);
+      const data = await response.json();
+      console.log("User detail data:", data);
 
-        // Build table
-        let tableHtml = `<table>
-          <tr><th>Course Name</th><th>Progress</th><th>Action</th></tr>`;
-        courses.slice(0, 30).forEach(c => {
-          let btnLabel = "Not Started";
-          if (c.percent_complete === 100) btnLabel = "Review";
-          else if (c.percent_complete > 0) btnLabel = "In Progress";
+      const courses = (data.courses || []).filter(c => c.is_active_enrollment);
 
-          tableHtml += `<tr>
-            <td>${c.course_name}</td>
-            <td>${c.percent_complete}%</td>
-            <td><a href="https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
-              <button>${btnLabel}</button>            
-            </a></td>
-          </tr>`;
-          //  <td><a href="https://sso.teachable.com/secure/288799/identity/login/password?redirect_to=https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
-          //    <button>${btnLabel}</button>
-        });
-        tableHtml += "</table>";
-
-        if (courses.length > 10) {
-          tableHtml += `<div style="margin-top:8px;color:#555;"></div>`;
-        }
-
-        container.innerHTML = tableHtml;
-      } catch (err) {
-        console.error(err);
-        container.innerHTML = `Error loading courses for ${loginEmail}`;
+      if (!courses.length) {
+        container.innerHTML = `
+          No enrollments found for ${loginEmail}. 
+          Consider getting this Free Course!
+          <a href="https://www.iamtimcorey.com/courses/hands-on-refactoring/" target="_blank">
+            Hands on Refactoring
+          </a>`;
+        return;
       }
+
+      // Sort courses by progress
+      courses.sort((a, b) => b.percent_complete - a.percent_complete);
+
+      // Build table
+      let tableHtml = `<table border="1" cellpadding="5">
+        <tr><th>Course ID</th><th>Course Name</th><th>Progress</th><th>Action</th></tr>`;
+      courses.slice(0, 30).forEach(c => {
+        let btnLabel = "Not Started";
+        if (c.percent_complete === 100) btnLabel = "Review";
+        else if (c.percent_complete > 0) btnLabel = "In Progress";
+
+        tableHtml += `<tr>
+          <td>${c.course_id}</td>
+          <td>${c.course_name}</td>
+          <td>${c.percent_complete}%</td>
+          <td>
+            <a href="https://courses.iamtimcorey.com/courses/enrolled/${c.course_id}" target="_blank">
+              <button>${btnLabel}</button>
+            </a>
+          </td>
+        </tr>`;
+      });
+      tableHtml += "</table>";
+
+      container.innerHTML = tableHtml;
     } catch (error) {
       console.error("An error occurred:", error);
       container.innerHTML = `Error looking up user: ${error.message}`;
     }
   }
 
-  // ✅ Call it here (outside the function)
-  loadCourses();
+  // Attach button event
+  document.getElementById("loadBtn").addEventListener("click", loadCourses);
+
+  // Attach Enter key event
+  emailInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      loadCourses();
+    }
+  });
+
+  // Auto-load if stored email exists
+  if (storedEmail) {
+    loadCourses();
+  }
 });
 </script>
+
 
 
 </body>
