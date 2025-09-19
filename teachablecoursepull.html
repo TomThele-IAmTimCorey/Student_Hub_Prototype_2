@@ -178,7 +178,7 @@ hoUy238I3tditABq22vkjWxEUoylKigb
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
-    "Welcome In, " + (localStorage.getItem('login_name') || "Student");
+    "Welcome to Student Badge search ";
 
   const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
 
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const userData = await userResponse.json();
       if (!userData.users || userData.users.length === 0) {
-        throw new Error("No user found for email:  " + loginEmail);
+        throw new Error("No user found in Teachable for email:  " + loginEmail);
       }
 
       const studentId = userData.users[0].id;
