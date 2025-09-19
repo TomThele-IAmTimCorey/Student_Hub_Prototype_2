@@ -177,11 +177,16 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('welcomeText').textContent =
     "Welcome In, " + (localStorage.getItem('login_name') || "Student");
 
-  const apiKey = "hoUy238I3tditABq22vkjWxEUoylKigb";
+  const apiKey = "xxxxxx";
 
   const emailInput = document.getElementById("loginEmailInput");
-  const storedEmail = localStorage.getItem("login_email") || "";
-  emailInput.value = storedEmail;
+
+  // ✅ Get email from URL parameter "student_email"
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlEmail = urlParams.get("student_email") || "";
+
+  // Prefill input with URL email if provided
+  emailInput.value = urlEmail;
 
   async function loadCourses() {
     const loginEmail = emailInput.value.trim();
@@ -189,9 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Please enter a login email.");
       return;
     }
-
-    // Save entered email to localStorage
-    localStorage.setItem("login_email", loginEmail);
 
     const container = document.getElementById('coursesContainer');
     container.innerHTML = "Loading courses...";
@@ -206,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "GET",
           headers: {
             "accept": "application/json",
-            "apikey": apiKey
+            "apiKey": apiKey   // ✅ corrected header
           }
         }
       );
@@ -228,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "GET",
         headers: {
           "accept": "application/json",
-          "apikey": apiKey
+          "apiKey": apiKey
         }
       });
 
@@ -284,8 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Auto-load if stored email exists
-  if (storedEmail) {
+  // ✅ Auto-load if URL had an email
+  if (urlEmail) {
     loadCourses();
   }
 });
